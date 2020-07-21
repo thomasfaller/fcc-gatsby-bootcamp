@@ -6,6 +6,14 @@ import headerStyles from "./header.module.scss";
 const Header = () => {
   const data = useStaticQuery(graphql`
     query {
+      allContentfulPage {
+        edges {
+          node {
+            title
+            slug
+          }
+        }
+      }
       site {
         siteMetadata {
           title
@@ -23,15 +31,18 @@ const Header = () => {
       </h1>
       <nav>
         <ul className={headerStyles.navList}>
-          <li>
-            <Link
-              className={headerStyles.navItem}
-              activeClassName={headerStyles.activeNavItem}
-              to="/"
-            >
-              Home
-            </Link>
-          </li>
+          {data.allContentfulPage.edges.map((edge, i) => (
+            <li key={i}>
+              <Link
+                className={headerStyles.navItem}
+                activeClassName={headerStyles.activeNavItem}
+                to={`/${edge.node.slug}`}
+              >
+                {edge.node.title}
+              </Link>
+            </li>
+          ))}
+
           <li>
             <Link
               className={headerStyles.navItem}
@@ -39,24 +50,6 @@ const Header = () => {
               to="/blog"
             >
               Blog
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={headerStyles.navItem}
-              activeClassName={headerStyles.activeNavItem}
-              to="/about"
-            >
-              About
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={headerStyles.navItem}
-              activeClassName={headerStyles.activeNavItem}
-              to="/contact"
-            >
-              Contact
             </Link>
           </li>
         </ul>

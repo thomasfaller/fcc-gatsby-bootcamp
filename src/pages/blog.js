@@ -33,16 +33,8 @@ const BlogPage = () => {
         {data.allContentfulPost.edges.map((edge, i) => (
           <li key={i} className={blogStyles.post}>
             <Link to={`/blog/${edge.node.slug}`}>
-              <div style={{ display: "flex" }}>
-                <img
-                  src={edge.node.thumbnail.file.url}
-                  style={{ width: 200 }}
-                />
-                <div>
-                  <h3>{edge.node.title}</h3>
-                  <p>{edge.node.date}</p>
-                </div>
-              </div>
+              <h3>{edge.node.title}</h3>
+              <p>{edge.node.date}</p>
             </Link>
           </li>
         ))}
